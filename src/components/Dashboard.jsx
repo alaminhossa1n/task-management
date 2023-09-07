@@ -8,7 +8,6 @@ import TeamDashBoard from "./TeamDashBoard";
 const Dashboard = () => {
     const { user, logoutUser } = useAuth();
     const { teams } = userTeams();
-    console.log(teams);
 
     const [selectedOption, setSelectedOption] = useState('contact');
 

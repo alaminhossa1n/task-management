@@ -11,6 +11,7 @@ const TeamDashBoard = ({ teamsId }) => {
     if (teams) {
         team = teams.find((team) => team.teamId === teamIdToFind);
     }
+    console.log(team);
 
     //modal
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,6 +34,7 @@ const TeamDashBoard = ({ teamsId }) => {
             dueDate,
             priority
         }
+
         const { teamName, teamId, tasks, usersMail } = team;
         tasks.push(newTask)
 
@@ -54,12 +56,20 @@ const TeamDashBoard = ({ teamsId }) => {
 
     return (
         <div>
-            <button
-                onClick={toggleModal}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-            >
-                Create Task
-            </button>
+            <div className="flex justify-between">
+                <button
+                    onClick={toggleModal}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                >
+                    Create Task
+                </button>
+                <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                >
+                    Invite
+                </button>
+            </div>
+            {/* modal  */}
             <div>
                 {isModalOpen && (
                     <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -144,6 +154,82 @@ const TeamDashBoard = ({ teamsId }) => {
                         </div>
                     </div>
                 )}
+            </div>
+            <h1>Tasks</h1>
+
+            <div className="">
+
+                <table className="min-w-full divide-y divide-gray-200">
+                    <thead>
+                        <tr>
+                            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Title
+                            </th>
+                            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Description
+                            </th>
+                            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Due Date
+                            </th>
+                            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Priority
+                            </th>
+                            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Assigned
+                            </th>
+                            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Status
+                            </th>
+                            <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {
+                            team && team.tasks ? (
+                                team.tasks.map((task, index) => (
+                                    <tr key={index}>
+                                        <td className="px-6 py-4 whitespace-no-wrap">
+                                            {task.title}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-no-wrap">
+                                            {task.description}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-no-wrap">
+                                            {task.dueDate}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-no-wrap">
+                                            {task.priority}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-no-wrap">
+                                            {/* {task.assigned} */}
+                                            <p>loading</p>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-no-wrap">
+                                            {/* {task.status} */}
+                                            <p>loading</p>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-no-wrap">
+                                            {/* {task.action} */}
+                                            <p>loading</p>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <>
+                                    <h1>No Tasks</h1>
+                                </>
+                            )
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div>
+
             </div>
         </div>
     );
