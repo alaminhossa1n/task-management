@@ -34,6 +34,8 @@ const useAuth = () => {
 
     users.push({ email, password, username, profilePicture, bio });
     localStorage.setItem("users", JSON.stringify(users));
+    alert('Registration Successful!')
+    navigate('/login')
   };
 
 

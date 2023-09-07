@@ -219,7 +219,9 @@ const TeamDashBoard = ({ teamsId }) => {
                                 ))
                             ) : (
                                 <>
-                                    <h1>No Tasks</h1>
+                                    <tr>
+                                        <td><h1>No Tasks</h1></td>
+                                    </tr>
                                 </>
                             )
                         }

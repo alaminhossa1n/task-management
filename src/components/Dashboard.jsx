@@ -8,6 +8,7 @@ import TeamDashBoard from "./TeamDashBoard";
 const Dashboard = () => {
     const { user, logoutUser } = useAuth();
     const { teams } = userTeams();
+    console.log(user);
 
     const [selectedOption, setSelectedOption] = useState('contact');
 
@@ -28,7 +29,7 @@ const Dashboard = () => {
         const teamId = Math.round(Math.random() * 10000000000);
 
         console.log(teamName, teamId);
-
+        // create teams 
         let teams = localStorage.getItem('teams');
 
         if (teams) {
@@ -45,6 +46,25 @@ const Dashboard = () => {
 
         localStorage.setItem('teams', JSON.stringify(teams));
 
+        // add to user 
+        const { bio, email, password, profilePicture, username } = user;
+        const updatedUser = {
+            username, bio, email, password, profilePicture, teams: []
+        };
+        
+        if (Array.isArray(user.teams)) {
+            updatedUser.teams = user.teams.concat(teamId);
+        } else {
+            console.log("User's teams is not an array.");
+        }
+        
+        const users = JSON.parse(localStorage.getItem('users'));
+        
+        const filterUsers = users.filter(n => n.email !== user.email);
+        filterUsers.push(updatedUser);
+        
+        localStorage.setItem('users', JSON.stringify(filterUsers));
+        
         toggleModal();
     };
 
@@ -62,7 +82,7 @@ const Dashboard = () => {
                     </div>
                     <hr className="my-5" />
 
-                    <div>
+                    <div className="">
                         <button
                             onClick={toggleModal}
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
@@ -71,8 +91,10 @@ const Dashboard = () => {
                         </button>
                     </div>
 
-                    <div className="text-white">
-                        <h1>Your Teams</h1>
+                    {/* <hr className="my-5" /> */}
+
+                    <div className="text-white mt-5">
+                        <h1 className="text-lg font-bold mb-5 ps-3">Your Teams: </h1>
                         <ul>
                             {teams ? (
                                 teams.map((team, index) => (
@@ -89,32 +111,17 @@ const Dashboard = () => {
                                 <li>No teams available</li>
                             )}
                         </ul>
-
-
                     </div>
 
-                    <ul>
-                        <li
-                            className={`cursor-pointer px-4 py-2 text-white ${selectedOption === 'contact' ? 'bg-blue-500' : ''
-                                }`}
-                            onClick={() => handleOptionChange('contact')}
-                        >
-                            Contact
-                        </li>
-                        <li
-                            className={`cursor-pointer px-4 py-2 text-white ${selectedOption === 'mapAndChart' ? 'bg-blue-500' : ''
-                                }`}
-                            onClick={() => handleOptionChange('mapAndChart')}
-                        >
-                            Map and Chart
-                        </li>
-                    </ul>
                 </div>
+
+                {/* <hr className="my-5" /> */}
+
                 {
-                    user ? <div>
+                    user ? <div className="flex justify-center">
                         <button
                             onClick={() => logoutUser()}
-                            className="text-white bg-red-600 px-7 py-2 rounded-md">
+                            className="text-white bg-red-600 px-7 py-2 rounded-md mt-20">
                             Logout
                         </button>
                     </div> : <div className="flex justify-between px-5">
