@@ -8,7 +8,7 @@ import TeamDashBoard from "./TeamDashBoard";
 const Dashboard = () => {
     const { user, logoutUser } = useAuth();
     const { teams } = userTeams();
-    console.log(user);
+
 
     const [selectedOption, setSelectedOption] = useState('contact');
 
@@ -52,11 +52,12 @@ const Dashboard = () => {
             username, bio, email, password, profilePicture, teams: []
         };
         
-        if (Array.isArray(user.teams)) {
-            updatedUser.teams = user.teams.concat(teamId);
-        } else {
-            console.log("User's teams is not an array.");
-        }
+        // if (Array.isArray(user.teams)) {
+        //     updatedUser.teams = user.teams.concat(teamId);
+        // } else {
+        //     console.log("User's teams is not an array.");
+        // }
+        updatedUser.teams.push(teamId);
         
         const users = JSON.parse(localStorage.getItem('users'));
         

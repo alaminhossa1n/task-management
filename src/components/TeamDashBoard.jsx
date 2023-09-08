@@ -2,6 +2,7 @@ import { useState } from "react";
 import userTeams from "../hooks/useTeams";
 
 const TeamDashBoard = ({ teamsId }) => {
+    const users = JSON.parse(localStorage.getItem('users'));
 
     const { teams } = userTeams();
     const teamIdToFind = teamsId; // Replace with the team ID you want to find
@@ -54,21 +55,55 @@ const TeamDashBoard = ({ teamsId }) => {
 
     //modal
 
+
+    // ................ invite 
+    const [showOptions, setShowOptions] = useState(false);
+    const [selectedOption, setSelectedOption] = useState('');
+
+    const toggleOptions = () => {
+        setShowOptions(!showOptions);
+    };
+
+    const handleSelectChange = (e) => {
+        setSelectedOption(e.target.value);
+        toggleOptions()
+    };
+    // ..................
+
+
     return (
         <div>
             <div className="flex justify-between">
-                <button
-                    onClick={toggleModal}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                >
-                    Create Task
-                </button>
-                <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                >
-                    Invite
-                </button>
+                <div>
+                    <button
+                        onClick={toggleModal}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                    >
+                        Create Task
+                    </button>
+                </div>
+                <div>
+                    <button
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                        onClick={toggleOptions}
+                    >
+                        Invite
+                    </button>
+                    {/* Render the selection options based on the state */}
+                    {showOptions && (
+                        <div>
+                            <select onChange={handleSelectChange}>
+                                {
+                                    users && (users.map((user, index) => (
+                                        <option value={user.email}>{user.email}</option>
+                                    )))
+                                }
+                            </select>
+                        </div>
+                    )}
+                </div>
             </div>
+
             {/* modal  */}
             <div>
                 {isModalOpen && (

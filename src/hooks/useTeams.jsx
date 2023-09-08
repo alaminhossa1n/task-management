@@ -1,3 +1,4 @@
+
 import useAuth from "./useAuth"
 
 const userTeams = () => {
@@ -9,7 +10,7 @@ const userTeams = () => {
     if (user) {
         currentUser = allUsers.find(n => n.email === user?.email);
     }
-
+console.log(currentUser);
     let teams = localStorage.getItem('teams');
 
     if (teams) {
@@ -17,17 +18,19 @@ const userTeams = () => {
         if (currentUser?.teams) {
             // Assuming currentUser.teams is an array of teamId
             const currentUserTeams = currentUser.teams;
+            console.log(currentUserTeams);
             teams = teams.filter(team => currentUserTeams.includes(team.teamId));
-            return { teams }
+            console.log(teams);
         } else {
-            return [];
-            // console.log("currentUser doesn't have teams.");
+            // If currentUser doesn't have teams, return an empty array
+            teams = [];
         }
     } else {
-        // console.log("No teams data found in localStorage.");
+        // If no teams data found in localStorage, return an empty array
+        teams = [];
     }
 
-
+    return { teams }; // Always return an object with a 'teams' property
 }
 
 export default userTeams;
